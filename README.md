@@ -21,7 +21,9 @@
 ### 关于版本问题
 请统一使用下面链接的`Codename Engine`版本
 
-[这是下载链接](https://github.com/MobilePorting/CodenameEngine-Mobile/actions/runs/12750679073/artifacts/2422951342)
+[电脑版（windows）](https://nightly.link/CodenameCrew/CodenameEngine/workflows/windows/main/Codename%20Engine.zip)
+
+[手机版(android)](https://github.com/MobilePorting/CodenameEngine-Mobile/actions/runs/12750679073/artifacts/2422951342)
 
 ### Mod Addons
 #### 简介
