@@ -22,7 +22,7 @@ importAddons("Point");
 importAddons("Point.Point3D");
 
 /**
- * 如果想导入全部文件里的class，可以使用*，玩应该都熟悉
+ * 如果想导入全部文件里的class，可以使用*，玩源码的应该都熟悉
  * importAddons("Point.*");
  */
 
