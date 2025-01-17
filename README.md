@@ -5,7 +5,10 @@
 ![](https://github.com/VapireMox/The-blood-WB--By-CNE/blob/YourDad/source/一阶段.png)
 
 ## 关于进度
-万万没想到，这个模组竟然卡在了绘画进度这么久，持续至今
+`【歌曲】`已完成1942
+`【谱子】`已完成1942
+`【绘画】`未过半
+`【编程】`未知
 
 ## 交代给编程人员的
 
