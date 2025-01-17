@@ -3,6 +3,9 @@
 本模组abab......等z杨来介绍吧
 ![](https://github.com/VapireMox/The-blood-WB--By-CNE/blob/YourDad/images/loadingMenu/1942menu.png)
 
+## 关于进度
+万万没想到，这个模组竟然卡在了绘画进度这么久，持续至今
+
 ## 交代给编程人员的
 
 ### 请开启各自的分支，最后我会合并
