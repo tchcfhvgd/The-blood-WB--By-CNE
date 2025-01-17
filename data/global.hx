@@ -11,7 +11,7 @@ import openfl.Lib;
 
 public var globalGameTimer:Float = 0.;
 
-var playVideo:Bool = false;
+var playVideo:Bool = true;
 
 var onceTime:Bool = true;
 var playBool:Bool = false;
