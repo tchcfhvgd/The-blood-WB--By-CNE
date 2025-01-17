@@ -1,5 +1,7 @@
 import Array;
 
+import funkin.backend.scripting.GlobalScript;
+import funkin.backend.scripting.Script;
 import funkin.backend.system.MainState;
 import funkin.backend.MusicBeatTransition;
 import funkin.backend.MusicBeatState;
@@ -19,6 +21,10 @@ var playBool:Bool = false;
 var kaichangVideo:FlxVideo;
 
 function new() {
+	var addonsManager:HScript = Script.create(Paths.script("data/addonsManager"));
+	GlobalScript.scripts.add(addonsManager);
+	addonsManager.load();
+	
 	MusicBeatTransition.script = "data/scripts/transition";
 }
 
