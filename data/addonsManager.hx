@@ -34,7 +34,7 @@ function new() {
 function onScriptCreated(script:HScript, origin:String) {
 	
 	var kawa = script;
-	script.interp.variables.set("importAddons", function(sb:String) {
+	script.set("importAddons", function(sb:String) {
 		importScriptAddons(sb, kawa);
 	});
 }
@@ -56,10 +56,16 @@ function importScriptAddons(str:String, script:HScript) {
 					Application.current.window.alert("not exists this Addons \"" + split[0] + '"', "Error");
 				}
 			}else if(split.length < 3) {
-				if(customClasses.exists(split[1])) {
-					script.set(split[1], customClasses.get(split[1]));
+				if(split[1] == "*") {
+					for(cs=>go in customClasses) {
+						script.set(cs, go);
+					}
 				}else {
-					Application.current.window.alert("not exists this Addons \"" + split[0] + "/" + split[1] + '"', "Error");
+					if(customClasses.exists(split[1])) {
+						script.set(split[1], customClasses.get(split[1]));
+					}else {
+						Application.current.window.alert("not exists this Addons \"" + split[0] + "/" + split[1] + '"', "Error");
+					}
 				}
 			}else {
 				Application.current.window.alert("not Support create new Addons Directory Package", "Error");
