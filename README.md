@@ -16,7 +16,8 @@
 好好滴给`z杨大大`干活
 
 ### 关于版本问题
-请统一使用`Codename Engine最新版本`
+请统一使用下面链接的`Codename Engine`版本
+
 [这是下载链接](https://github.com/MobilePorting/CodenameEngine-Mobile/actions/runs/12750679073/artifacts/2422951342)
 
 ### Mod Addons
