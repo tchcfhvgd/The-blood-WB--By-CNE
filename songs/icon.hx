@@ -12,6 +12,12 @@ var allowAnimationIcon:Array<{var name:String; var scale:Float; var x:Float; var
 		scale: 1,
 		x: 58,
 		y: -35
+	},
+	{
+		name: "tom-final",
+		scale: 1,
+		x: 58,
+		y: -35
 	}
 ];
 
