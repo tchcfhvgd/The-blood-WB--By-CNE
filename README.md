@@ -3,6 +3,7 @@
 本模组abab......等z杨来介绍吧
 ![](https://github.com/VapireMox/The-blood-WB--By-CNE/blob/YourDad/images/loadingMenu/1942menu.png)
 ![](https://github.com/VapireMox/The-blood-WB--By-CNE/blob/YourDad/source/一阶段.png)
+![](https://github.com/VapireMox/The-blood-WB--By-CNE/blob/YourDad/source/场景草稿.jpg)
 
 ## 关于进度
 `【歌曲】`已完成1942
