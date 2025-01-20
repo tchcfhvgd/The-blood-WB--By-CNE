@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextureAtlas imagePath="bf.png">
+<TextureAtlas imagePath="hnbf.png">
 	<!-- Created using the Spritesheet and XML generator -->
 	<!-- https://uncertainprod.github.io/FNF-Spritesheet-XML-generator-Web -->
 	<SubTexture name="lose0000" x="0" y="0" width="81" height="82" frameX="-54" frameY="-70" frameWidth="200" frameHeight="200"/>
