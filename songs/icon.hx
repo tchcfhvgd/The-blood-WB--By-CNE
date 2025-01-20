@@ -2,7 +2,7 @@ importAddons("AnimationIcon");
 
 var allowAnimationIcon:Array<{var name:String; var scale:Float; var x:Float; var y:Float;}> = [
 	{
-		name: "bf",
+		name: "hnbf",
 		scale: 1.75,
 		x: 118,
 		y: -125
