@@ -1,7 +1,7 @@
 {
 	"song": {
 		"player1": "hnbf",
-		"player2": "dad",
+		"player2": "tom",
 		"events": [
 		],
 		"notes": [
@@ -4411,7 +4411,7 @@
 		"gfVersion": "hngf",
 		"disableNoteRGB": true,
 		"song": "Friendship_broken",
-		"stage": "stage",
+		"stage": "1942",
 		"validScore": true,
 		"needsVoices": true,
 		"bpm": 144,
