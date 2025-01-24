@@ -1,0 +1,9 @@
+<stage zoom="0.85" startCamPosX="0" startCamPosY="0" folder="stages/1942">
+	<sprite name="bg" sprite="bg" x="-50" y="-350" scalex="1.5" scaley="1.5" scroll="0.95"/>
+	
+	<girlfriend y="250" />
+	<boyfriend y="150"/>
+	<dad x="-100" y="225" camxoffset="250" camyoffset="0"/>
+	
+	<sprite name="shadow" sprite="shadow" x="-50" y="-350" scalex="1.5" scaley="1.5" scroll="0.95"/>
+</stage>
