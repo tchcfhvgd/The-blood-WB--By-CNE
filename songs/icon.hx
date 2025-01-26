@@ -5,19 +5,19 @@ var allowAnimationIcon:Array<{var name:String; var scale:Float; var x:Float; var
 		name: "hnbf",
 		scale: 1.75,
 		x: 118,
-		y: -125
+		y: (Options.downscroll ? -75 : -125)
 	},
 	{
 		name: "tom",
 		scale: 1,
 		x: 58,
-		y: -35
+		y: (Options.downscroll ? -10 : -35)
 	},
 	{
 		name: "tom-final",
 		scale: 1,
 		x: 58,
-		y: -35
+		y: (Options.downscroll ? -10 : -35)
 	}
 ];
 
@@ -74,8 +74,8 @@ function update(elapsed:Float) {
 	if(animationIconP1 != null && members.indexOf(animationIconP1) > -1) {
 		animationIconP1.health = healthBar.percent / 100;
 	
-		var iconOffset:Float = animationIconP1.data.x;
-		var center:Float = healthBar.x + healthBar.width * FlxMath.remapToRange(healthBar.percent, 0, 100, 1, 0);
+		var iconOffset:Float = animationIconP1.data.x + 52;
+		var center:Float = healthBar.x + healthBar.width * FlxMath.remapToRange(healthBar.percent, 0, 100, 1, 0) * healthBar.scale.x;
 	
 		animationIconP1.x = center - iconOffset;
 	}
@@ -83,8 +83,8 @@ function update(elapsed:Float) {
 	if(animationIconP2 != null && members.indexOf(animationIconP2) > -1) {
 		animationIconP2.health = 1 - (healthBar.percent / 100);
 	
-		var iconOffset:Float = animationIconP2.data.x;
-		var center:Float = healthBar.x + healthBar.width * FlxMath.remapToRange(healthBar.percent, 0, 100, 1, 0);
+		var iconOffset:Float = animationIconP2.data.x - 52;
+		var center:Float = healthBar.x + healthBar.width * FlxMath.remapToRange(healthBar.percent, 0, 100, 1, 0) * healthBar.scale.x;
 	
 		animationIconP2.x = center - (animationIconP2.frameWidth - iconOffset);
 	}
