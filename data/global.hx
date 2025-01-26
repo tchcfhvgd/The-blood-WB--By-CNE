@@ -13,7 +13,7 @@ import openfl.Lib;
 
 public var globalGameTimer:Float = 0.;
 
-var playVideo:Bool = true;
+var playVideo:Bool = false;
 
 var onceTime:Bool = true;
 var playBool:Bool = false;
@@ -45,13 +45,26 @@ function postGameStart() {
 	}
 }
 
+var directState:Map<String, Class<Dynamic>> = [
+	"WB/MainMenu" => MainMenuState
+];
+
+function preStateSwitch() {
+	for(key in directState.keys()) {
+		if(Std.isOfType(FlxG.game._requestedState, directState.get(key))) {
+			FlxG.game._requestedState = new ModState(key);
+		}
+	}
+}
+
 //不是哥们，故意不给我使用FlxTimer是吧？
 function update(elapsed:Float) {
 	globalGameTimer += elapsed * 1000;
 	
 	if(playVideo) {
 		if(globalGameTimer >= 1000 && onceTime) {
-			startKaichangVideo();
+			if(kaichangVideo != null)
+				startKaichangVideo();
 		
 			onceTime = false;
 		}
