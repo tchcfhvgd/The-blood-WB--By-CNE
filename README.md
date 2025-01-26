@@ -92,4 +92,4 @@ class TestShader extends FlxBasic {
     }
 }
 ```
-至于调用可看[Mods Addons](https://github.com/VapireMox/The-blood-WB--By-CNE/edit/YourDad/README.md#mod-addons%E6%A8%A1%E7%BB%84%E7%BB%84%E4%BB%B6)的介绍
+至于调用可看[Mods Addons](https://github.com/VapireMox/The-blood-WB--By-CNE?tab=readme-ov-file#mod-addons%E6%A8%A1%E7%BB%84%E7%BB%84%E4%BB%B6)的介绍
