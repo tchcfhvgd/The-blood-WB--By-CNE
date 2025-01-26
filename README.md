@@ -46,6 +46,11 @@ function create() {
     var point3D:Point3D = new Point3D(1, 1, 1);
 }
 ```
+#### 缺陷
+* 暂时不能在addons文件夹新建一个文件出来，可能会搞出bug来
+  
+* 无法在本模组的`data/global.hx`脚本以及`data/addonsManager.hx`脚本使用函数`importAddons`，因为他们是这些事物的造物主
+
 ### Mod Shader（模组着色器）
 #### 问候
 别再找`chara`给老子（YourDad）！别往shaders装着色器文件！！想添加着色器到`addons/shader.hx`文件里
