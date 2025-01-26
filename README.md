@@ -1,8 +1,8 @@
 # [FNF Mod] - The Bloody WB
 ## 模组介绍
 本模组abab......等z杨来介绍吧
-![](https://github.com/VapireMox/The-blood-WB--By-CNE/blob/YourDad/images/loadingMenu/1942menu.png)
 ![](https://github.com/VapireMox/The-blood-WB--By-CNE/blob/YourDad/source/场景草稿.jpg)
+![笑话](https://github.com/VapireMox/The-blood-WB--By-CNE/blob/YourDad/source/Image_38517362154756.png)
 ![](https://github.com/VapireMox/The-blood-WB--By-CNE/blob/YourDad/source/一阶段.png)
 
 ## 关于进度
