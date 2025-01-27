@@ -1,4 +1,101 @@
+import Array;
+
 import openfl.Assets;
+import openfl.display.ShaderParameterType;
+
+class OUTLINE extends FlxBasic {
+	public var shaderCode:String;
+	public var shader:FunkinShader;
+	
+	public var color:Int;
+	public var colorVec:ShaderVector;
+	public var samples:Int;
+	public var size:Float;
+	
+	public function new(cc:Int) {
+		shader = new FunkinShader(this.shaderCode);
+		
+		color = cc;
+		colorVec = new ShaderVector(shader, "color", {
+			x: ((color >> 16) & 0xFF) / 255,
+			y: ((color >> 8) & 0xFF) / 255,
+			z: (color & 0xFF) / 255
+		});
+		
+		size = 0.001;
+		shader.size = size;
+		
+		samples = 4;
+		shader.samples = samples;
+	}
+	
+	public function set_color(val:Int) {
+		color = val;
+		
+		colorVec.set(((color >> 16) & 0xFF) / 255, ((color >> 8) & 0xFF) / 255, (color & 0xFF) / 255);
+		return color;
+	}
+	
+	public function set_size(val:Float) {
+		size = val;
+		shader.size = size;
+		
+		return size;
+	}
+	
+	public function set_samples(val:Int) {
+		samples = val;
+		shader.samples = samples;
+		
+		return samples;
+	}
+	
+	public function get_shaderCode():String {
+		return "
+#pragma header
+
+uniform vec3 color;
+uniform int samples;
+uniform float size;
+
+void main()
+{
+	vec2 iResolution = openfl_TextureSize;
+	vec2 fragCoord = openfl_TextureCoordv.xy * iResolution;
+
+	vec2 uv = fragCoord.xy / iResolution.xy;
+    
+    vec3 targetCol = color; //The color of the outline
+    
+    vec4 finalCol = vec4(0);
+    
+    float rads = ((360.0 / float(samples)) * 3.14159265359) / 180.0;	//radians based on SAMPLES
+    
+    for(int i = 0; i < samples; i++)
+    {
+        if(finalCol.w < 0.1)
+        {
+        	float r = float(i + 1) * rads;
+    		vec2 offset = vec2(cos(r) * 0.1, -sin(r)) * size; //calculate vector based on current radians and multiply by magnitude
+    		finalCol = texture2D(bitmap, uv + offset);	//render the texture to the pixel on an offset UV
+            if(finalCol.w > 0.0)
+            {
+                finalCol.xyz = targetCol;
+            }
+        }
+    }
+    
+    vec4 tex = texture2D(bitmap, uv);
+    if(tex.w > 0.0)
+    {
+     	finalCol = tex;   //if the centered texture's alpha is greater than 0, set finalcol to tex
+    }
+    
+	gl_FragColor = finalCol;
+}
+		";
+	}
+}
 
 /**
  * 这里不得不列举@橘子整的转场必备shader
@@ -53,7 +150,7 @@ void main()
 /**
  * 老电视花瓶
  */
-class OldTv extends FlxBasic {
+class OldTV extends FlxBasic {
 	public var shaderCode:String;
 	public var shader:FunkinShader;
 	
@@ -241,3 +338,247 @@ class OldTv extends FlxBasic {
 		";
 	}
 }
+
+/**
+ * 对于这个悲催的hscript世界有十分甚至九分有用（狂喜
+ * huh？
+ * 仅支持vec类型的，比如vec2, vec3, vec4诸如此类
+ */
+class ShaderVector {
+	/**
+	 * 父类shader，懂得都懂
+	 */
+	public var parent:FunkinShader;
+	/**
+	 * 用于检测vec类型，当值为1时，就是未有出parent里的data匿名结构中的variable类型或者其为null
+	 */
+	public var count:Int;
+
+	/**
+	 * 🐶造史诗级🐶shit...只和德川君做太狡猾了
+	 * @param parentShader 父类shadder，方便用于掌控其uniform的值
+	 * @param variable parentShader中的data里变量名称，用于懒得讲
+	 * @param defaultVariables 给你输入的variable定义初始赋值，是匿名结构
+	 */
+	public function new(parentShader:FunkinShader, variable:String, ?defaultVariables:{
+		var x:Float;
+		var y:Float;
+		var z:Float;
+		var a:Float;
+	}) {
+		parent = parentShader;
+		
+		if(parent.data != null && Reflect.hasField(parent.data, variable)) {
+			var field = Reflect.field(parent.data, variable);
+			
+			if(field.value == null && field.type > 4 && field.type < 8) {
+				field.value = new Array();
+				
+				var i:Int = 0;
+				
+				while(i < field.type - 3) {
+					i++;
+					
+					field.value.push(0.0);
+				}
+			}
+			
+			switch(field.type) {
+				case ShaderParameterType.FLOAT2:
+					this.__interp.variables.set("x", (defaultVariables != null && Reflect.hasField(defaultVariables, "x") ? defaultVariables.x : field.value[0]));
+					this.__interp.variables.set("y", (defaultVariables != null && Reflect.hasField(defaultVariables, "y") ? defaultVariables.y : field.value[1]));
+					
+					if(defaultVariables != null && Reflect.hasField(defaultVariables, "x")) {
+						field.value[0] = defaultVariables.x;
+					}
+					if(defaultVariables != null && Reflect.hasField(defaultVariables, "y")) {
+						field.value[1] = defaultVariables.y;
+					}
+					
+					count = 2;
+				case ShaderParameterType.FLOAT3:
+					this.__interp.variables.set("x", (defaultVariables != null && Reflect.hasField(defaultVariables, "x") ? defaultVariables.x : field.value[0]));
+					this.__interp.variables.set("y", (defaultVariables != null && Reflect.hasField(defaultVariables, "y") ? defaultVariables.y : field.value[1]));
+					this.__interp.variables.set("z", (defaultVariables != null && Reflect.hasField(defaultVariables, "z") ? defaultVariables.z : field.value[2]));
+					
+					if(defaultVariables != null && Reflect.hasField(defaultVariables, "x")) {
+						field.value[0] = defaultVariables.x;
+					}
+					if(defaultVariables != null && Reflect.hasField(defaultVariables, "y")) {
+						field.value[1] = defaultVariables.y;
+					}
+					if(defaultVariables != null && Reflect.hasField(defaultVariables, "z")) {
+						field.value[2] = defaultVariables.z;
+					}
+					
+					count = 3;
+				case ShaderParameterType.FLOAT4:
+					this.__interp.variables.set("r", (defaultVariables != null && Reflect.hasField(defaultVariables, "r") ? defaultVariables.x : field.value[0]));
+					this.__interp.variables.set("g", (defaultVariables != null && Reflect.hasField(defaultVariables, "g") ? defaultVariables.y : field.value[1]));
+					this.__interp.variables.set("b", (defaultVariables != null && Reflect.hasField(defaultVariables, "b") ? defaultVariables.z : field.value[2]));
+					this.__interp.variables.set("a", (defaultVariables != null && Reflect.hasField(defaultVariables, "a") ? defaultVariables.a : field.value[3]));
+					
+					if(defaultVariables != null && Reflect.hasField(defaultVariables, "x")) {
+						field.value[0] = defaultVariables.x;
+					}
+					if(defaultVariables != null && Reflect.hasField(defaultVariables, "y")) {
+						field.value[1] = defaultVariables.y;
+					}
+					if(defaultVariables != null && Reflect.hasField(defaultVariables, "z")) {
+						field.value[2] = defaultVariables.z;
+					}
+					if(defaultVariables != null && Reflect.hasField(defaultVariables, "a")) {
+						field.value[3] = defaultVariables.a;
+					}
+					
+					count = 4;
+				default:
+					#if mobile
+						Application.current.window.alert("not support this Type, sorry! qnmd");
+					#end
+					
+					count = 1;
+			}
+			
+			if(count > 1) {
+				switch(count) {
+					case 2:
+						this.__interp.variables.set("set_x", function(val:Float) {
+							x = val;
+							
+							if(field.value[0] != x) {
+								field.value.remove(field.value[0]);
+								field.value.insert(0, x);
+							}
+							
+		
+							return x;
+						});
+						this.__interp.variables.set("set_y", function(val:Float) {
+							y = val;
+							
+							if(field.value[1] != y) {
+								field.value.remove(field.value[1]);
+								field.value.insert(1, y);
+							}
+						
+							return y;
+						});
+					case 3:
+						this.__interp.variables.set("set_x", function(val:Float) {
+							x = val;
+							
+							if(field.value[0] != x) {
+								field.value.remove(field.value[0]);
+								field.value.insert(0, x);
+							}
+							
+		
+							return x;
+						});
+						this.__interp.variables.set("set_y", function(val:Float) {
+							y = val;
+							
+							if(field.value[1] != y) {
+								field.value.remove(field.value[1]);
+								field.value.insert(1, y);
+							}
+						
+							return y;
+						});
+						this.__interp.variables.set("set_z", function(val:Float) {
+							z = val;
+							
+							if(field.value[2] != z) {
+								field.value.remove(field.value[2]);
+								field.value.insert(2, z);
+							}
+							
+		
+							return z;
+						});
+					case 4:
+						this.__interp.variables.set("set_r", function(val:Float) {
+							r = val;
+							
+							if(field.value[0] != r) {
+								field.value.remove(field.value[0]);
+								field.value.insert(0, r);
+							}
+							
+		
+							return r;
+						});
+						this.__interp.variables.set("set_g", function(val:Float) {
+							g = val;
+							
+							if(field.value[1] != g) {
+								field.value.remove(field.value[1]);
+								field.value.insert(1, g);
+							}
+						
+							return g;
+						});
+						this.__interp.variables.set("set_b", function(val:Float) {
+							b = val;
+							
+							if(field.value[2] != b) {
+								field.value.remove(field.value[2]);
+								field.value.insert(2, b);
+							}
+							
+		
+							return b;
+						});
+						this.__interp.variables.set("set_a", function(val:Float) {
+							a = val;
+							
+							if(field.value[3] != a) {
+								field.value.remove(field.value[3]);
+								field.value.insert(3, a);
+							}
+			
+							return a;
+						});
+					default:
+						Application.current.window.alert("
+* 我不知道， 您是如何进行到这一步的
+* 但我想说的是
+* ......
+* 你个肮脏的黑客...
+* 不要再让我见到你...
+						");
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 用过flixel里的FlxPoint吗？用过就行了
+	 * @param vx no parsing
+	 * @param vy no parsing
+	 * @param vz no parsing
+	 * @param va no parsing
+	 */
+	public function set(?vx:Float, ?vy:Float, ?vz:Float, ?va:Float):ShaderVector {
+		if(count == 1) return this;
+		
+		if(count < 4) {
+			this.x = vx;
+			this.y = vy;
+
+			if(count > 2) {
+				this.z = vz;
+			}
+		}else {
+			this.r = vx;
+			this.g = vy;
+			this.b = vz;
+			this.a = va;
+		}
+	
+		return this;
+	}
+}
+
+__script__.set("ShaderVector", ShaderVector);

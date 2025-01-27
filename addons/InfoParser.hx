@@ -17,7 +17,9 @@ class InfoParser {
 		if(ca.length > 0) {
 			//不太确定i=>v能否在class结构体起作用
 			var keyGroup:Array<String> = [];
-			var valueGroup:Array<String> = [];
+			var valueGroup:Array<Dynamic> = [];
+			
+			var duohang:Bool = false;
 		
 			for(st in ca) {
 				var i = -1;
@@ -27,8 +29,19 @@ class InfoParser {
 					
 					var char:String = st.charAt(i);
 					
+					if(char == "`") {
+						if(st.charAt(i + 1) == "`" && st.charAt(i + 2) == "`") {
+							break;
+						}
+						
+						Application.current.window.alert("未知格式！", "错误");
+						
+						break;
+					}
+					
 					if(isLetter(char)) {
 						var existMao:Bool = false;
+						var startColor:Bool = existMao;
 					
 						var preKey:String = char;
 						var preValue:String;
@@ -46,10 +59,36 @@ class InfoParser {
 								if(!existMao)
 									preKey += abab;
 								else {
-									if(preValue == null)
-										preValue = abab;
-									else preValue += abab;
+									if(!startColor) {
+										if(preValue == null)
+											preValue = abab;
+										else preValue += abab;
+									}else {
+										if(preValue == null || !StringTools.startsWith(preValue, "0xFF"))
+											preValue = "0xFF";
+										
+										if(preValue.length < 10)
+											preValue += abab.toUpperCase();
+									}
 								}
+							else if(abab == "[") {
+								if(existMao && st.charAt(preIndex + i + 1) == "[") {
+									duohang = true;
+									
+									var shenyu = st.substr(preIndex + i + 2).split("");
+									if(shenyu.length > 0)
+										for(sy in shenyu) {
+											preValue += sy;
+										}
+									
+									break;
+								}
+							}
+							else if(abab == "#") {
+								if(existMao) {
+									startColor = true;
+								}
+							}
 							else if(abab == "_") {
 								if(existMao) {
 									preValue += " ";
@@ -69,7 +108,33 @@ class InfoParser {
 							}
 						}
 						
-						break;
+						if(duohang) {
+							for(content in ca.indexOf(st)...ca.length - 1) {
+								if(!StringTools.contains(ca[content], "]]")) {
+									preValue += ca[content] + "\n";
+								}else {
+									var ing:Int = ca[content].indexOf("]]");
+									if(ing > 0) {
+										preValue += ca[content].substring(0, ing - 1);
+									}else {
+										if(StringTools.endsWith(preValue, "\n")) {
+											preValue = preValue.substring(0, preValue.length - 2);
+										}
+									}
+									
+									valueGroup.push(preValue);
+									
+									break;
+								}
+							}
+							
+							duohang = false;
+							continue;
+						}
+						
+						if(!duohang) {
+							break;
+						}
 					}
 				}
 			}
@@ -78,6 +143,10 @@ class InfoParser {
 				for(key in keyGroup) {
 					if(expr == null)
 						expr = {};
+					
+					if(StringTools.startsWith(valueGroup[keyGroup.indexOf(key)], "0xFF")) {
+						valueGroup[keyGroup.indexOf(key)] = FlxColor.fromString(valueGroup[keyGroup.indexOf(key)]);
+					}
 				
 					Reflect.setField(expr, key, valueGroup[keyGroup.indexOf(key)]);
 				}
