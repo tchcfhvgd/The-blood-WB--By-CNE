@@ -4,6 +4,15 @@ import Reflect;
  * 这个真的太牛逼了，哈哈哈哈哈哈，都给我狠狠地三连
  */
 class AnimationIcon extends FlxSprite {
+	/**
+	 * 用于freeplay的
+	 */
+	public var posObject:FlxSprite;
+	/**
+	 * 搭配posObject更香
+	 */
+	public var freeplayOffset:FlxPoint = FlxPoint.get();
+
 	public var iconName:String = "bf";
 	
 	public var healthSteps:Map<String, Dynamic> = [
@@ -85,6 +94,10 @@ class AnimationIcon extends FlxSprite {
 	
 	public override function update(elapsed:Float) {
 		super.update(elapsed);
+		
+		if(posObject != null) {
+			setPosition(posObject.x + posObject.width + this.freeplayOffset.x, posObject.y + this.freeplayOffset.y);
+		}
 	
 		for(name in healthSteps.keys()) {
 			var step:Dynamic = healthSteps.get(name);
