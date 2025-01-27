@@ -1,4 +1,9 @@
 # [FNF Mod] - WB's Crisis
+## 模组名称问题
+* 虽然主创曾把模组名称改成`血腥华纳`（* The Blood WB），而且本库也有一段时间使用过此名
+* 但由于对外宣传以及其他方面名称仍是`华纳的危机`（* WB,s Crisis）
+* 所以在`demo`发行前模组名字仍然叫`华纳的危机`（* WB,s Crisis）
+* `血腥华纳`（* The Blood WB）属于别称
 ## 模组介绍
 本模组abab......等`z杨`来介绍吧
 ![](https://github.com/VapireMox/The-blood-WB--By-CNE/blob/YourDad/source/场景草稿.jpg)
